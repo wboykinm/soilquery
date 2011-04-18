@@ -2,7 +2,7 @@
 2011-04-17
 Bill Morris
 
-# Components
+# Project Components
 ## Input Data
 Soil chemistry and biophysical data provided by ground surveys or by any publicly-available soil data source. The initial format is 1-meter resolution .tif raster, of which there are about 80 layers representing everything from nitrogen content to soil texture at various horizons.
 ## GUI
