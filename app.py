@@ -8,6 +8,8 @@ from wsgiref.simple_server import make_server
 from wsgiref.util import FileWrapper
 import urllib2
 import json
+# import GDAL, numpy, matplotlib, pprint
+from agoodle import AGoodle 
 
 def parse_qs(query):
     data = {}
@@ -32,19 +34,22 @@ def application(environ, start_response):
         response = 'favicons are silly'
     elif (path_info == '/query/'):
         query = environ['QUERY_STRING']
-        if not (query):
+        if False:# (query):
             response = 'query needed which contains wkt=something'
         else:
             # parse the query string
-            params = parse_qs(query)
-            print params
-            # valid wkt parameter
-            # validate the polygon value
-            # then think about next steps
-            # agoodle here!
+            # params = parse_qs(query)
+            # print params
             # get a polygon geometry
+            # valid wkt parameter
+            # agoodle here!
             # open a tif
+            g = AGoodle('demo_data/clay_sub1_1.tif')
+            g.raster_info.extent
+            wkt = """POLYGON ((-180.0000000000000000 -90.0000000000000000, -180.0000000000000000 90.0000000000000000, 180.0000000000000000 90.0000000000000000, 180.0000000000000000 -90.0000000000000000, -180.0000000000000000 -90.0000000000000000))"""
             # summarize tiff based on geometry
+            summary = g.summarize_wkt(wkt)
+            pprint.pprint(summary)
             mime = 'text/plain'
             data = {'a':'b'}
             response = json.dumps(data)
