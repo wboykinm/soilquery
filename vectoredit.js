@@ -1,6 +1,6 @@
-var map, vectors, controls;
+var map, polygons, controls;
 var enable_gmaps = true;
-
+var feature;
 
 function init(){
 
@@ -22,7 +22,7 @@ function init(){
     var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
     renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
 
-    vectors = new OpenLayers.Layer.Vector("Vector Layer", {
+    polygons = new OpenLayers.Layer.Vector("Vector Layer", {
         renderers: renderer
     });
 
@@ -37,35 +37,35 @@ function init(){
         var ghyb = new OpenLayers.Layer.Google("Google Satellite", {type: G_HYBRID_MAP, 'sphericalMercator': true} );
         map.addLayers([ghyb, gmap, gphy]);
     }
-    map.addLayers([vectors]);
+    map.addLayers([polygons]);
     map.addControl(new OpenLayers.Control.Navigation({'zoomWheelEnabled': false}));
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.PanZoom());
     map.addControl(new OpenLayers.Control.MousePosition());
     
-    function report(event) {
-        OpenLayers.Console.log(event.type, event.feature ? event.feature.id : event.components);
+    function handle_geometry(event) {
+        //OpenLayers.Console.log(event.type, event.feature ? event.feature.id : event.components);
+        //alert('hey')
+        //feature = event;
+        //console.log(event);
+        var wkt = event.feature.geometry.toString();
+        alert(wkt);
     }
-    vectors.events.on({
-        "beforefeaturemodified": report,
-        "featuremodified": report,
-        "afterfeaturemodified": report,
-        "vertexmodified": report,
-        "sketchmodified": report,
-        "sketchstarted": report,
-        "sketchcomplete": report
+    
+    polygons.events.on({
+        //"beforefeaturemodified": handle_geometry,
+        "featuremodified": handle_geometry,
+        "afterfeaturemodified": handle_geometry,
+        //"vertexmodified": handle_geometry,
+        //"sketchmodified": handle_geometry,
+        //"sketchstarted": handle_geometry,
+        "sketchcomplete": handle_geometry
     });
+
     controls = {
-        point: new OpenLayers.Control.DrawFeature(vectors,
-                    OpenLayers.Handler.Point),
-        line: new OpenLayers.Control.DrawFeature(vectors,
-                    OpenLayers.Handler.Path),
-        polygon: new OpenLayers.Control.DrawFeature(vectors,
+        polygon: new OpenLayers.Control.DrawFeature(polygons,
                     OpenLayers.Handler.Polygon),
-        regular: new OpenLayers.Control.DrawFeature(vectors,
-                    OpenLayers.Handler.RegularPolygon,
-                    {handlerOptions: {sides: 5}}),
-        modify: new OpenLayers.Control.ModifyFeature(vectors)
+        modify: new OpenLayers.Control.ModifyFeature(polygons)
     };
     
     for(var key in controls) {
