@@ -1,7 +1,7 @@
 <head> 
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
     <meta name="apple-mobile-web-app-capable" content="yes" /> 
-    <title>Modify Feature</title> 
+    <title>Soil Query</title> 
     <style type="text/css"> 
         #controls {
             width: 512px;
@@ -18,10 +18,7 @@
     <script type="text/javascript"></script> 
   </head> 
   <body onload="init()"> 
-    <h1 id="title">OpenLayers Modify Feature Example</h1> 
-    <div id="tags"> 
-        vertices, digitizing, draw, drawing
-    </div> 
+    <h1 id="title">Query soil data based on desired management boundaries</h1> 
     <div id="shortdesc">A demonstration of the ModifyFeature control for editing vector features.</div> 
     <div id="map" class="smallmap"></div> 
     <div id="controls"> 
@@ -32,30 +29,8 @@
                 <label for="noneToggle">navigate</label> 
             </li> 
             <li> 
-                <input type="radio" name="type" value="point" id="pointToggle" onclick="toggleControl(this);" /> 
-                <label for="pointToggle">draw point</label> 
-            </li> 
-            <li> 
-                <input type="radio" name="type" value="line" id="lineToggle" onclick="toggleControl(this);" /> 
-                <label for="lineToggle">draw line</label> 
-            </li> 
-            <li> 
                 <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="toggleControl(this);" /> 
                 <label for="polygonToggle">draw polygon</label> 
-            </li> 
-            <li> 
-                <input type="radio" name="type" value="regular" id="regularToggle" onclick="toggleControl(this);" /> 
-                <label for="regularToggle">draw regular polygon</label> 
-                <label for="sides"> - sides</label> 
-                <input id="sides" type="text" size="2" maxlength="2"
-                       name="sides" value="5" onchange="update()" /> 
-                <ul> 
-                    <li> 
-                        <input id="irregular" type="checkbox"
-                               name="irregular" onchange="update()" /> 
-                        <label for="irregular">irregular</label> 
-                    </li> 
-                </ul> 
             </li> 
             <li> 
                 <input type="radio" name="type" value="modify" id="modifyToggle"
@@ -84,4 +59,20 @@
             </li> 
         </ul> 
     </div> 
+    <div id="sidebar"> 
+         <div id="instructions_container"> 
+             Instructions: <a href="#" id="instructions_link">hide</a> 
+             <div id="instructions"> 
+        Digitize a desired paddock on the background map. Edit the corners as needed.
+             </div> 
+             <br/> 
+        </div> 
+       <div style="height:500px"> 
+           <div id="debug"></div> 
+           <div id="chart"></div> 
+           <div id="ag_summary"></div> 
+           <div id="legend"></div> 
+           <div id="download_csv"></div> 
+       </div> 
+    </div>
   </body> 
