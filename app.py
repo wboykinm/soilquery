@@ -44,12 +44,16 @@ def application(environ, start_response):
             # valid wkt parameter
             # agoodle here!
             # open a tif
-            g = AGoodle('demo_data/clay_sub1_1.tif')
+            g = AGoodle('demo_data/clay_sub1_utm.tif')
             g.raster_info.extent
-            wkt = """POLYGON ((-180.0000000000000000 -90.0000000000000000, -180.0000000000000000 90.0000000000000000, 180.0000000000000000 90.0000000000000000, 180.0000000000000000 -90.0000000000000000, -180.0000000000000000 -90.0000000000000000))"""
+            print "raster extent acquired"
+            wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
+            print "geometry acquired"
             # summarize tiff based on geometry
             summary = g.summarize_wkt(wkt)
+            print "agoodle-ized"
             pprint.pprint(summary)
+            print "summary printed"
             mime = 'text/plain'
             data = {'a':'b'}
             response = json.dumps(data)
