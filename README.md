@@ -14,8 +14,10 @@ User draws vector polygon on Google Maps API v3 imagery:
 ## Passing the geometry
 Polygon geometry is passed to a database, also stored there for future graphic retrieval
 ## Agoodle query
+
 Polygon is used to query soil raster data stored in the same database via agoodle (https://github.com/brentp/agoodle)
 agoodle requirements include:
+
       $ git clone git://github.com/brentp/agoodle.git
       $ cd agoodle
       $ sudo python setup.py install
