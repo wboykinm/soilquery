@@ -50,9 +50,15 @@ def application(environ, start_response):
             wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
             print "geometry acquired"
             # summarize tiff based on geometry
-            summary = g.summarize_wkt(wkt)
+            # for categorical data: summary = g.summarize_wkt(wkt)
+            arr = g.read_array_bbox()
+            ranges = [(0, 45), (45, 50), (50, 60), (60, 75)]
+            cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
+            for vmin, vmax in ranges:
+            	subset = arr[(arr > vmin) & (arr <= vmax)]
+            	print vmin, vmax, len(subset), len(subset) * cell_area
             print "agoodle-ized"
-            pprint.pprint(summary)
+            # for categorical output: pprint.pprint(summary)
             print "summary printed"
             mime = 'text/plain'
             data = {'a':'b'}
