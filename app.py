@@ -9,7 +9,8 @@ from wsgiref.util import FileWrapper
 import urllib2
 import json
 # import GDAL, numpy, matplotlib, pprint
-from agoodle import AGoodle 
+from agoodle import AGoodle
+print "agoodle activated"
 
 def parse_qs(query):
     data = {}
@@ -42,16 +43,20 @@ def application(environ, start_response):
             # print params
             # get a polygon geometry
             # valid wkt parameter
-            # agoodle here!
-            # open a tif
-            g = AGoodle('demo_data/clay_sub1_utm.tif')
-            g.raster_info.extent
+            # agoodle here, open a tif
+            g = AGoodle('demo_data/clay_sub1_wgs84.tif')
             print "raster extent acquired"
+            bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279)
+            print "bounding box established"
+            arr = g.read_array_bbox()
+            print "array established"
             wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
+            print "polygon imported to wkt"
+            arr.mask_with_poly(wkt)
+            # for categorical data: g.raster_info.extent
             print "geometry acquired"
             # summarize tiff based on geometry
             # for categorical data: summary = g.summarize_wkt(wkt)
-            arr = g.read_array_bbox()
             ranges = [(0, 45), (45, 50), (50, 60), (60, 75)]
             cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
             for vmin, vmax in ranges:
