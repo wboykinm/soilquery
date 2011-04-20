@@ -38,35 +38,25 @@ def application(environ, start_response):
         if False:# (query):
             response = 'query needed which contains wkt=something'
         else:
-            # parse the query string
-            # params = parse_qs(query)
-            # print params
-            # get a polygon geometry
-            # valid wkt parameter
-            # agoodle here, open a tif
+            # bring in the raster using agoodle:
             g = AGoodle('demo_data/clay_sub1_wgs84.tif')
             print "raster extent acquired"
-            bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279)
+            bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279) #specifies extent
             print "bounding box established"
             arr = g.read_array_bbox()
             print "array established"
-            wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
-            print "polygon imported to wkt"
-            arr.mask_with_poly(wkt)
-            # for categorical data: g.raster_info.extent
-            print "geometry acquired"
-            # summarize tiff based on geometry
-            # for categorical data: summary = g.summarize_wkt(wkt)
-            ranges = [(0, 45), (45, 50), (50, 60), (60, 75)]
+            # to feed in user-drawn polgon: wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
+            # print "polygon imported to wkt"
+            # arr.mask_with_poly(wkt)
+            # print "geometry acquired"
+            ranges = [(0, 45), (45, 50), (50, 60), (60, 75)] # establishes data output binned classes
             cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
             for vmin, vmax in ranges:
             	subset = arr[(arr > vmin) & (arr <= vmax)]
             	print vmin, vmax, len(subset), len(subset) * cell_area
             print "agoodle-ized"
-            # for categorical output: pprint.pprint(summary)
-            print "summary printed"
             mime = 'text/plain'
-            data = {'a':'b'}
+            data = {'a':'b'} # not sure what purpose this output serves
             response = json.dumps(data)
     else:
         # assume it is a file name
