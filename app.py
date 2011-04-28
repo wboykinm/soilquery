@@ -3,6 +3,7 @@
 # http://docs.python.org/library/wsgiref.html#examples
 
 import os
+import sys
 import mimetypes
 from wsgiref.simple_server import make_server
 from wsgiref.util import FileWrapper
@@ -27,8 +28,23 @@ def application(environ, start_response):
     mime = 'text/plain'
 
     path_info = environ['PATH_INFO']
+    #http://stackoverflow.com/questions/775396/how-to-catch-post-using-wsgiref
+    method = environ['REQUEST_METHOD']
+
+    # first catch any data that is POST'ed and assume it is a query
+    if (method == 'POST'):
+        # http://stackoverflow.com/questions/28395/passing-post-values-with-curl
+        request_body_size = int(environ['CONTENT_LENGTH'])
+        query = environ['wsgi.input'].read(request_body_size)
+        print 'POST query: ',query
+        # parse the query string
+        if query:
+            params = parse_qs(query)
+            response = json.dumps(params)
+        else:
+            response = '{"error":"nematodes without data are not sexy!"}'
     # root of app requested
-    if (path_info == '/'):
+    elif (path_info == '/'):
         mime = 'text/html'
         response = FileWrapper(open('index.html','rb'))
     elif (path_info == '/favicon.ico'):
@@ -73,6 +89,17 @@ def application(environ, start_response):
     # return  response
     return response
 
-httpd = make_server('', 8000, application)
-print "Serving on port 8000..."
-httpd.serve_forever()
+def run():
+    try:
+        httpd = make_server('0.0.0.0', 8000, application)
+        print "...Serving on localhost:8000"
+        print "...use ctrl-c to quit."
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print '\n...nematode out, bra'
+        sys.exit(0)
+
+# if run from the command line...
+if __name__ == "__main__":
+    run()
+        

@@ -51,15 +51,33 @@ function init(){
         var wkt = event.feature.geometry.toString();
         alert(wkt);
     }
+
+    function post_geometry(event) {
+        var wkt = event.feature.geometry.toString();
+        jQuery.ajax({
+            type: "POST",
+            url: "/can_be_anything_right_now/",
+            data: {'wkt':wkt},
+            dataType: 'json',
+            success: function(response, textStatus, XMLHttpRequest){
+                //console.log(response);
+                //alert(response);
+                jQuery('#results')[0].innerHTML = 'server returned: ' + JSON.stringify(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert('error dude: ' + textStatus + ' ' + errorThrown);
+            },
+        });
+    }
     
     polygons.events.on({
         //"beforefeaturemodified": handle_geometry,
-        "featuremodified": handle_geometry,
-        "afterfeaturemodified": handle_geometry,
+        //"featuremodified": handle_geometry,
+        //"afterfeaturemodified": handle_geometry,
         //"vertexmodified": handle_geometry,
         //"sketchmodified": handle_geometry,
         //"sketchstarted": handle_geometry,
-        "sketchcomplete": handle_geometry
+        "sketchcomplete": post_geometry
     });
 
     controls = {
