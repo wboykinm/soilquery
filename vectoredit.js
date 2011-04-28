@@ -53,11 +53,29 @@ function init(){
     }
 
     function post_geometry(event) {
-        var wkt = event.feature.geometry.toString();
+        feature = event;
+        // merc bounds and polygon
+        var g = event.feature.geometry;
+        g.calculateBounds();
+        var merc_bbox = g.bounds.toBBOX();
+        var merc_wkt = g.toString();
+        
+        // now transform
+        var geometry = g.clone();
+        // from spherical mercator to wgs 84
+        geometry.transform(map.projection, map.displayProjection);
+
+        var wgs84_wkt = geometry.toString();
+        var wgs84_bbox = geometry.bounds.toBBOX();
+        
         jQuery.ajax({
             type: "POST",
             url: "/can_be_anything_right_now/",
-            data: {'wkt':wkt},
+            data: {'merc_wkt':merc_wkt,
+                   'merc_bbox':merc_bbox,
+                   'wgs84_wkt':wgs84_wkt,
+                   'wgs84_bbox':wgs84_bbox,
+                   },
             dataType: 'json',
             success: function(response, textStatus, XMLHttpRequest){
                 //console.log(response);
