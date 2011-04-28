@@ -40,17 +40,6 @@ def application(environ, start_response):
         # parse the query string
         if query:
             params = parse_qs(query)
-            response = json.dumps(params)
-        else:
-            response = '{"error":"nematodes without data are not sexy!"}'
-    # root of app requested
-    elif (path_info == '/'):
-        mime = 'text/html'
-        response = FileWrapper(open('index.html','rb'))
-    elif (path_info == '/favicon.ico'):
-        response = 'favicons are silly'
-    elif (path_info == '/query/'):
-        query = environ['QUERY_STRING']
         if False:# (query):
             response = 'query needed which contains wkt=something'
         else:
@@ -72,8 +61,18 @@ def application(environ, start_response):
             	print vmin, vmax, len(subset), len(subset) * cell_area
             print "agoodle-ized"
             mime = 'text/plain'
-            data = {'a':'b'} # not sure what purpose this output serves
+            data = {'vmin':'vmax'}
             response = json.dumps(data)
+        else:
+            response = '{"error":"nematodes without data are not sexy!"}'
+    # root of app requested
+    elif (path_info == '/'):
+        mime = 'text/html'
+        response = FileWrapper(open('index.html','rb'))
+    elif (path_info == '/favicon.ico'):
+        response = 'favicons are silly'
+    elif (path_info == '/query/'):
+        
     else:
         # assume it is a file name
         filename = os.path.basename(path_info)
