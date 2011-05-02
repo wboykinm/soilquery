@@ -62,11 +62,16 @@ function init(){
         
         // now transform
         var geometry = g.clone();
+        
+        // no worky
+        //geometry.calculateBounds();
         // from spherical mercator to wgs 84
         geometry.transform(map.projection, map.displayProjection);
 
         var wgs84_wkt = geometry.toString();
-        var wgs84_bbox = geometry.bounds.toBBOX();
+        // wtf?
+        // TypeError: Result of expression 'geometry.bounds' [null] is not an object.
+        //var wgs84_bbox = geometry.bounds.toBBOX();
         
         jQuery.ajax({
             type: "POST",
@@ -74,7 +79,7 @@ function init(){
             data: {'merc_wkt':merc_wkt,
                    'merc_bbox':merc_bbox,
                    'wgs84_wkt':wgs84_wkt,
-                   'wgs84_bbox':wgs84_bbox,
+                   //'wgs84_bbox':wgs84_bbox,
                    },
             dataType: 'json',
             success: function(response, textStatus, XMLHttpRequest){
