@@ -1,4 +1,4 @@
-<!DOCTYPE html With a gajillion thanks to Blueprint CSS>
+<!DOCTYPE html With a gajillion thanks to dbsgeo and Blueprint CSS>
 
 <html lang="en">
   <head>
@@ -14,7 +14,7 @@
     <style type = "text/css"/>
        #map {
             width:600px;
-            height:350px;
+            height:400px;
         }
         #controls {
             width: 512px;
@@ -86,7 +86,7 @@
         <hr>
         <div class="span-7 colborder">
           <h6>Instructions</h6>
-          <p>Digitize a desired management boundary on the background map. Double-click on your final corner to finish a polygon. Edit the corners as needed. Results will show selected underlying soil properties.</p>
+          <p>Digitize a desired management boundary on the background map, within the red bounding box. Double-click on your final corner to finish a polygon. Edit the corners as needed. Results will show selected underlying soil properties.</p>
         </div>
         <div class="span-7 last">
           <h6>Credits</h6>
@@ -100,34 +100,34 @@
             <li> 
                 <input type="radio" name="type" value="none" id="noneToggle"
                        onclick="toggleControl(this);" checked="checked" /> 
-                <label for="noneToggle">navigate</label> 
+                <label for="noneToggle">Navigate</label> 
             </li> 
             <li> 
                 <input type="radio" name="type" value="polygon" id="polygonToggle" onclick="toggleControl(this);" /> 
-                <label for="polygonToggle">draw polygon</label> 
+                <label for="polygonToggle">Draw Polygon</label> 
             </li> 
             <li> 
                 <input type="radio" name="type" value="modify" id="modifyToggle"
                        onclick="toggleControl(this);" /> 
-                <label for="modifyToggle">modify feature</label> 
+                <label for="modifyToggle">Modify Feature</label> 
                 <ul> 
                     <li> 
                         <input id="rotate" type="checkbox"
                                name="rotate" onchange="update()" /> 
-                        <label for="rotate">allow rotation</label> 
+                        <label for="rotate">Allow Rotation</label> 
                     </li> 
                     <li> 
                         <input id="resize" type="checkbox"
                                name="resize" onchange="update()" /> 
-                        <label for="resize">allow resizing</label> 
+                        <label for="resize">Allow Resizing</label> 
                         (<input id="keepAspectRatio" type="checkbox"
                                name="keepAspectRatio" onchange="update()" checked="checked" /> 
-                        <label for="keepAspectRatio">keep aspect ratio</label>)
+                        <label for="keepAspectRatio">Keep Aspect Ratio</label>)
                     </li> 
                     <li> 
                         <input id="drag" type="checkbox"
                                name="drag" onchange="update()" /> 
-                        <label for="drag">allow dragging</label> 
+                        <label for="drag">Allow Dragging</label> 
                     </li> 
                 </ul> 
             </li>
@@ -136,7 +136,7 @@
        <hr/>
        <h3><span class="alt">Output Results</span></h3>  
        <hr class="space">
-           <div id="results">Create a Polygon First</div>
+           <div id="results">Mean & Range of Clay Concentration</div>
 	   <div id="success"></div>
 	   <div id="visualization" style="width: 250px; height: 300px;"></div>
           </div>
