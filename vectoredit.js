@@ -127,12 +127,12 @@ function init(){
     }
         
     polygons.events.on({
-        //"beforefeaturemodified": handle_geometry,
-        //"featuremodified": handle_geometry,
-        //"afterfeaturemodified": handle_geometry,
-        //"vertexmodified": handle_geometry,
-        //"sketchmodified": handle_geometry,
-        //"sketchstarted": handle_geometry,
+        //"beforefeaturemodified": post_geometry,
+        "featuremodified": post_geometry,
+        //"afterfeaturemodified": post_geometry,
+        //"vertexmodified": post_geometry,
+        //"sketchmodified": post_geometry,
+        //"sketchstarted": post_geometry,
         "sketchcomplete": post_geometry
     });
 

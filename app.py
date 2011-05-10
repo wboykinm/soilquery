@@ -8,9 +8,10 @@ import mimetypes
 from wsgiref.simple_server import make_server
 from wsgiref.util import FileWrapper
 import urllib2
+import urllib
 import json
-# import GDAL, numpy, matplotlib, pprint
-from agoodle import AGoodle
+from osgeo import osr
+from agoodle import AGoodle, points_from_wkt
 
 
 # ultimately this should likely be user driven...
@@ -20,7 +21,7 @@ def parse_qs(query):
     data = {}
     for i in urllib2.unquote(query).split("&"):
         k, v = i.split("=")
-        data[k] = v
+        data[k] = urllib.unquote_plus(v)
     return data
 
 def application(environ, start_response):
@@ -43,13 +44,27 @@ def application(environ, start_response):
         # parse the query string
         if query:
             params = parse_qs(query)
-            if params.get('wgs84_wkt'):
-                # bring in the raster using agoodle:
+            #import pdb;pdb.set_trace()
+            wkt = params.get('wgs84_wkt')
+            if wkt:
+                
                 g = AGoodle(RASTER)
-                bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279) #specifies extent
-                arr = g.read_array_bbox(bbox)
-                # to feed in user-drawn polgon: wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
-                # arr.mask_with_poly(wkt)
+                
+                use_wkt = True
+                
+                print wkt
+                if use_wkt:
+                    srs = osr.SpatialReference()
+                    srs.ImportFromWkt(g.raster.GetProjection())
+                    pts, bbox = points_from_wkt(wkt, srs, srs)
+                    
+                    arr = g.read_array_bbox(bbox)
+                    # not working right, blows up in agoodle
+                    #arr.mask_with_poly(pts, copy=False)
+                else:
+                    bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279) #specifies extent
+                    arr = g.read_array_bbox(bbox)
+                
                 cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
                 result = {}
                 result['sum'] = str(arr.sum())
