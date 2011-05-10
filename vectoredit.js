@@ -11,12 +11,15 @@ function init(){
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326"),
         maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
-        controls: []
+	controls: []
         };
     
     map = new OpenLayers.Map("map", options);
-    
-    OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '2';
+
+    //this script doesn't seem to give a damn what's specified for an extent or centroid
+    // center = new OpenLayers.LonLat(2002637.64,5008738.43);
+            
+    OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '1';
 
     // allow testing of specific renderers via "?renderer=Canvas", etc
     var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
@@ -85,7 +88,7 @@ function init(){
             success: function(response, textStatus, XMLHttpRequest){
                 //console.log(response);
                 //alert(response);
-                jQuery('#results')[0].innerHTML = 'server returned: ' + JSON.stringify(response);
+                jQuery('#results')[0].innerHTML = 'Calculation Results: ' + JSON.stringify(response) + ' Soil Characteristics';
             },
             error: function(jqXHR, textStatus, errorThrown){
                 alert('error dude: ' + textStatus + ' ' + errorThrown);
@@ -113,7 +116,7 @@ function init(){
         map.addControl(controls[key]);
     }
     
-    map.setCenter(new OpenLayers.LonLat(0, 0), 3);
+    map.setCenter(new OpenLayers.LonLat(0, 0), 5);
     document.getElementById('noneToggle').checked = true;
 }
 
