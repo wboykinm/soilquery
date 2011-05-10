@@ -57,14 +57,9 @@ def application(environ, start_response):
                 response['area'] = str(len(arr) * cell_area)
                 #import pdb;pdb.set_trace()
                 
-                # bin continuous into ranges
-                #ranges = [(0, 45), (45, 50), (50, 60), (60, 75)] # establishes data output binned classes
-                #for vmin, vmax in ranges:
-                	#subset = arr[(arr > vmin) & (arr <= vmax)]
-                	#print vmin, vmax, len(subset), len(subset) * cell_area
-                
                 mime = 'text/plain'
                 response = json.dumps(response)
+		print response
             else:
                 response = '{"error":"wgs84_wkt param was empty!"}'                
         else:
@@ -87,7 +82,7 @@ def application(environ, start_response):
     # set headers
     headers = [('Content-Type', str(mime))]
     start_response(str(status), headers)
-    # return  response
+    # return response
     return response
 
 def run():
