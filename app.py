@@ -67,8 +67,11 @@ def application(environ, start_response):
             wkt = params.get('wgs84_wkt')
             if wkt:
                 results = {}
-                surface_stats = summarize_raster(SURFACE,wkt)
-                results['surface'] = surface_stats
+                try:
+                    surface_stats = summarize_raster(SURFACE,wkt)
+                    results['surface'] = surface_stats
+                except Exception, e:
+                    results['error'] = str(e)
                 # TODO - other rasters..
                 mime = 'text/plain'
                 response = json.dumps(results)

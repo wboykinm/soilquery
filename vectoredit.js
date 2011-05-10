@@ -99,20 +99,23 @@ function init(){
             success: function(response, textStatus, XMLHttpRequest){
                 //console.log(response);
                 //alert(response);
-                //jQuery('#results')[0].innerHTML = 'Calculation Results: ' + JSON.stringify(response) + ' Soil Characteristics';
-                
-                array = []
-                if (response.surface) {
-                    stats = response.surface;
-                    array.push([parseFloat(stats.min),
-                                parseFloat(stats.mean),
-                                parseFloat(stats.mean)+10,
-                                parseFloat(stats.max)
-                               ])
+                if (response.error) {
+                    //alert(response.error)
+                } else {
+                    //jQuery('#results')[0].innerHTML = 'Calculation Results: ' + JSON.stringify(response) + ' Soil Characteristics';
+                    
+                    array = []
+                    if (response.surface) {
+                        stats = response.surface;
+                        array.push([parseFloat(stats.min),
+                                    parseFloat(stats.mean),
+                                    parseFloat(stats.mean)+10,
+                                    parseFloat(stats.max)
+                                   ])
+                    }
+                    // todo - add more raster results
+                    drawVisualization(array);
                 }
-                // todo - add more raster results
-                drawVisualization(array);
-                
             },
             error: function(jqXHR, textStatus, errorThrown){
                 alert('error dude: ' + textStatus + ' ' + errorThrown);
