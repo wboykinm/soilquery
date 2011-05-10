@@ -15,7 +15,7 @@ from agoodle import AGoodle, points_from_wkt
 
 
 # ultimately this should likely be user driven...
-RASTER = 'demo_data/clay_sub1_wgs84.tif'
+SURFACE = 'demo_data/clay_sub1_wgs84.tif'
 
 def parse_qs(query):
     data = {}
@@ -23,6 +23,27 @@ def parse_qs(query):
         k, v = i.split("=")
         data[k] = urllib.unquote_plus(v)
     return data
+
+
+def summarize_raster(filename,wkt):
+    g = AGoodle(filename)
+    srs = osr.SpatialReference()
+    srs.ImportFromWkt(g.raster.GetProjection())
+    pts, bbox = points_from_wkt(wkt, srs, srs)
+    
+    arr = g.read_array_bbox(bbox)
+    # not working right, blows up in agoodle
+    #arr.mask_with_poly(pts, copy=False)
+    cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
+    result = {}
+    result['sum'] = str(arr.sum())
+    result['max'] = str(arr.max())
+    result['min'] = str(arr.min())
+    result['mean'] = str(arr.mean())
+    result['data_type'] = str(arr.dtype)
+    result['area'] = str(len(arr) * cell_area)
+    return result
+
 
 def application(environ, start_response):
     
@@ -40,51 +61,24 @@ def application(environ, start_response):
         # http://stackoverflow.com/questions/28395/passing-post-values-with-curl
         request_body_size = int(environ['CONTENT_LENGTH'])
         query = environ['wsgi.input'].read(request_body_size)
-        print 'POST query: ',query
         # parse the query string
         if query:
             params = parse_qs(query)
-            #import pdb;pdb.set_trace()
             wkt = params.get('wgs84_wkt')
             if wkt:
-                
-                g = AGoodle(RASTER)
-                
-                use_wkt = True
-                
-                print wkt
-                if use_wkt:
-                    srs = osr.SpatialReference()
-                    srs.ImportFromWkt(g.raster.GetProjection())
-                    pts, bbox = points_from_wkt(wkt, srs, srs)
-                    
-                    arr = g.read_array_bbox(bbox)
-                    # not working right, blows up in agoodle
-                    #arr.mask_with_poly(pts, copy=False)
-                else:
-                    bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279) #specifies extent
-                    arr = g.read_array_bbox(bbox)
-                
-                cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
-                result = {}
-                result['sum'] = str(arr.sum())
-                result['max'] = str(arr.max())
-                result['min'] = str(arr.min())
-                result['mean'] = str(arr.mean())
-                result['data_type'] = str(arr.dtype)
-                result['area'] = str(len(arr) * cell_area)
-                #import pdb;pdb.set_trace()
-                
+                results = {}
+                surface_stats = summarize_raster(SURFACE,wkt)
+                results['surface'] = surface_stats
+                # TODO - other rasters..
                 mime = 'text/plain'
-                response = json.dumps(result)
-                print response
+                response = json.dumps(results)
             else:
                 response = '{"error":"wgs84_wkt param was empty!"}'
         else:
             response = '{"error":"nematodes without data are not sexy!"}'
     elif (path_info == '/meta'):
         mime = 'text/plain'
-        g = AGoodle(RASTER)
+        g = AGoodle(SURFACE)
         meta = {}
         meta['extent'] = g.raster_info.extent
         meta['nx'] = g.raster_info.nx

@@ -55,6 +55,17 @@ function init(){
         alert(wkt);
     }
 
+    function drawVisualization(array) {
+      // Populate the data table.
+      var dataTable = google.visualization.arrayToDataTable(array, true);
+
+      // Draw the chart.
+      var chart = new google.visualization.CandlestickChart(document.getElementById('visualization'));
+      chart.draw(dataTable, {legend:'none'});
+    }
+
+    google.setOnLoadCallback(drawVisualization);
+
     function post_geometry(event) {
         feature = event;
         // merc bounds and polygon
@@ -88,7 +99,20 @@ function init(){
             success: function(response, textStatus, XMLHttpRequest){
                 //console.log(response);
                 //alert(response);
-                jQuery('#results')[0].innerHTML = 'Calculation Results: ' + JSON.stringify(response) + ' Soil Characteristics';
+                //jQuery('#results')[0].innerHTML = 'Calculation Results: ' + JSON.stringify(response) + ' Soil Characteristics';
+                
+                array = []
+                if (response.surface) {
+                    stats = response.surface;
+                    array.push([parseFloat(stats.min),
+                                parseFloat(stats.mean),
+                                parseFloat(stats.mean)+10,
+                                parseFloat(stats.max)
+                               ])
+                }
+                // todo - add more raster results
+                drawVisualization(array);
+                
             },
             error: function(jqXHR, textStatus, errorThrown){
                 alert('error dude: ' + textStatus + ' ' + errorThrown);
