@@ -95,7 +95,37 @@ function init(){
             },
         });
     }
-    
+
+
+    function zoom_to_raster() {
+        jQuery.ajax({
+            type: "GET",
+            url: "/meta",
+            dataType: 'json',
+            success: function(response, textStatus, XMLHttpRequest){
+                var e = response.extent;
+                var wgs84_bounds = new OpenLayers.Bounds(e[0],e[1],e[2],e[3]);
+                console.log(wgs84_bounds);
+                var merc_bounds = wgs84_bounds.transform(map.displayProjection,map.projection);
+                console.log(merc_bounds);
+                map.zoomToExtent(merc_bounds);
+                map.zoomOut() // zoom back out one step
+                // http://dev.openlayers.org/sandbox/pinch/examples/boxes.html
+                var boxes  = new OpenLayers.Layer.Boxes( "Raster Box" );
+                var box = new OpenLayers.Marker.Box(merc_bounds);
+                box.events.register("click", box, function (e) {
+                        this.setBorder("yellow");
+                });
+                boxes.addMarker(box);
+                map.addLayers([boxes]);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert('could not zoom to raster extent, so defaulting to null island... ');
+                map.setCenter(new OpenLayers.LonLat(0, 0), 5);
+            },
+        });
+    }
+        
     polygons.events.on({
         //"beforefeaturemodified": handle_geometry,
         //"featuremodified": handle_geometry,
@@ -116,7 +146,11 @@ function init(){
         map.addControl(controls[key]);
     }
     
-    map.setCenter(new OpenLayers.LonLat(0, 0), 5);
+    // try to zoom to the raster
+    zoom_to_raster();
+    
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    
     document.getElementById('noneToggle').checked = true;
 }
 

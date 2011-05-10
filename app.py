@@ -11,7 +11,10 @@ import urllib2
 import json
 # import GDAL, numpy, matplotlib, pprint
 from agoodle import AGoodle
-print "agoodle activated"
+
+
+# ultimately this should likely be user driven...
+RASTER = 'demo_data/clay_sub1_wgs84.tif'
 
 def parse_qs(query):
     data = {}
@@ -42,28 +45,39 @@ def application(environ, start_response):
             params = parse_qs(query)
             if params.get('wgs84_wkt'):
                 # bring in the raster using agoodle:
-                g = AGoodle('demo_data/clay_sub1_wgs84.tif')
+                g = AGoodle(RASTER)
                 bbox = (-78.6920697, -78.6842881, 38.1767129, 38.1863279) #specifies extent
                 arr = g.read_array_bbox(bbox)
                 # to feed in user-drawn polgon: wkt = """POLYGON ((-78.6920697 38.1767129, -78.6920697 38.1863279, -78.6842881 38.1863279, -78.6842881 38.1767129, -78.6920697 38.1767129))"""
                 # arr.mask_with_poly(wkt)
                 cell_area = abs(g.raster_info.xsize * g.raster_info.ysize)
-                response = {}
-                response['sum'] = str(arr.sum())
-                response['max'] = str(arr.max())
-                response['min'] = str(arr.min())
-                response['mean'] = str(arr.mean())
-                response['data_type'] = str(arr.dtype)
-                response['area'] = str(len(arr) * cell_area)
+                result = {}
+                result['sum'] = str(arr.sum())
+                result['max'] = str(arr.max())
+                result['min'] = str(arr.min())
+                result['mean'] = str(arr.mean())
+                result['data_type'] = str(arr.dtype)
+                result['area'] = str(len(arr) * cell_area)
                 #import pdb;pdb.set_trace()
                 
                 mime = 'text/plain'
-                response = json.dumps(response)
-		print response
+                response = json.dumps(result)
+                print response
             else:
-                response = '{"error":"wgs84_wkt param was empty!"}'                
+                response = '{"error":"wgs84_wkt param was empty!"}'
         else:
             response = '{"error":"nematodes without data are not sexy!"}'
+    elif (path_info == '/meta'):
+        mime = 'text/plain'
+        g = AGoodle(RASTER)
+        meta = {}
+        meta['extent'] = g.raster_info.extent
+        meta['nx'] = g.raster_info.nx
+        meta['ny'] = g.raster_info.ny
+        meta['xsize'] = g.raster_info.xsize
+        meta['ysize'] = g.raster_info.ysize
+        response = json.dumps(meta)
+        
     # root of app requested
     elif (path_info == '/'):
         mime = 'text/html'
@@ -98,4 +112,3 @@ def run():
 # if run from the command line...
 if __name__ == "__main__":
     run()
-        
