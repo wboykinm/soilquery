@@ -6,9 +6,9 @@
     <title>Soil Query</title>
 
     <!-- Framework CSS -->
-    <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="css/screen2.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="screen2.css" type="text/css" media="screen, projection">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
     <meta name="apple-mobile-web-app-capable" content="yes" /> 
     <style type = "text/css"/>
@@ -26,11 +26,12 @@
             list-style: none;
         }
     </style> 
-    <script src="http://openlayers.org/api/OpenLayers.js"></script> 
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript"></script>
     <script src="vectoredit.js"></script>
-    <script type="text/javascript"></script> 
+    <script type="text/javascript"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{FILL_ME_IN}}"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ABQIAAAAU5nIhQnduJ9iPsy3waZMlhTCat8pn-pwI6w60n23OzfY3R2Z4RTB3t7-BLfbe4e0ewvhfI6LSnT8Gg}}"></script>
 
   </head>
   <body onload="init()">
@@ -39,30 +40,36 @@
       <hr>
       <h2 class="alt">Soil Biophysical Data at Your Fingertips</h2>
       <hr>
-      <div class="span-7 colborder">
-        <h6>Instructions</h6>
-        <p>Digitize a desired management boundary on the background map. Edit the corners as needed. Results will show selected underlying soil properties.</p>
+      <div class="span-7 prepend-1 colborder">
+        <h6>Soil Data Collection</h6>
+        <a href="http://www.youtube.com/watch?v=EqQXW9a8Aj8&feature=player_embedded" target="_blank"> 
+            <img src="Soilex5.png"> 
+        </a>
       </div>
-      <div class="span-8 colborder">
-        <h6>Perhaps an image here</h6>
-        <p>Sexy Nematodes</p>
+      <div class="span-7 colborder">
+        <h6>Case Study Location</h6>
+        <a href="http://www.youtube.com/watch?v=Bzi5Nk9z5Ys&feature=player_embedded" target="_blank"> 
+            <img src="Soilex6.png"> 
+        </a>
       </div>
       <div class="span-7 last">
         <h6>Soil Properties</h6>
-        <p>Selection pulldown menu of desired soil properties should go here . . .</p>
+        <a href="http://soils.tfrec.wsu.edu/mg/pH.gif" target="_blank"> 
+            <img src="Soilex7.png"> 
+        </a>
       </div>
       <hr>
       <hr class="space">
-      <div class="span-15 prepend-0.5 colborder">
+      <div class="span-15 prepend-1 colborder">
         <div id="map" class="smallmap"></div>
         <hr>
         <div class="span-7 colborder">
-          <h6>Nested Column 1: Peter Gabriel</h6>
-          <p>Don't talk back Just drive the car Shut your mouth I know what you are Don't say nothing Keep your hands on the wheel Don't turn around This is for real</p>
+          <h6>Instructions</h6>
+          <p>Digitize a desired management boundary on the background map. Double-click on your final corner to finish a polygon. Edit the corners as needed. Results will show selected underlying soil properties.</p>
         </div>
         <div class="span-7 last">
-          <h6>Nested Column 1: More Peter Gabriel</h6>
-          <p>Digging in the dirt Stay with me, I need support I'm digging in the dirt To find the places I got hurt Open up the places I got hurt</p>
+          <h6>Credits</h6>
+          <p>This chemical and biophysical soil data was collected from stratified field sampling by STI Inc., using both surface and subsurface instrumentation</p>
         </div>
       </div>
       <div class="span-7 last">
@@ -106,13 +113,12 @@
          </ul> 
        </div>
        <hr/>
-       <h3><span class="alt">Output Results Should go Here</span></h3>  
-       
-           <div id="results">nematode!</div>
-           
-      </div>
+       <h3><span class="alt">Output Results</span></h3>  
+       <hr class="space">
+           <div id="results">Create a Polygon First</div>
+          </div>
       <hr>
-      <h2 class="alt">The story is in the soil, keep your ear to the ground</h2>
+      <h2 class="alt">Plan for Soil Sustainability!</h2>
       <hr>
       <p>
         <a href="http://www.geosprocket.com">
