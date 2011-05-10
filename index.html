@@ -31,8 +31,27 @@
     <script src="vectoredit.js"></script>
     <script type="text/javascript"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ABQIAAAAU5nIhQnduJ9iPsy3waZMlhTCat8pn-pwI6w60n23OzfY3R2Z4RTB3t7-BLfbe4e0ewvhfI6LSnT8Gg}}"></script>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAU5nIhQnduJ9iPsy3waZMlhTCat8pn-pwI6w60n23OzfY3R2Z4RTB3t7-BLfbe4e0ewvhfI6LSnT8Gg"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['corechart']});
+    </script>
+    <script type="text/javascript">
+      function drawVisualization() {
+        // Populate the data table.
+        var dataTable = google.visualization.arrayToDataTable([
+           ['Surface',20,28,38,45],
+           ['Sub1',31,38,55,66],
+           ['Sub2',50,55,77,80],
+           ], true);
 
+        // Draw the chart.
+        var chart = new google.visualization.CandlestickChart(document.getElementById('visualization'));
+        chart.draw(dataTable, {legend:'none'});
+      }
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
   </head>
   <body onload="init()">
     <div class="container">
@@ -109,13 +128,15 @@
                         <label for="drag">allow dragging</label> 
                     </li> 
                 </ul> 
-            </li> 
+            </li>
          </ul> 
        </div>
        <hr/>
        <h3><span class="alt">Output Results</span></h3>  
        <hr class="space">
            <div id="results">Create a Polygon First</div>
+	   <div id="success">Blah</div>
+	   <div id="visualization" style="width: 250px; height: 300px;"></div>
           </div>
       <hr>
       <h2 class="alt">Plan for Soil Sustainability!</h2>
