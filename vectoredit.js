@@ -29,16 +29,16 @@ function init(){
         renderers: renderer
     });
 
-    var osm = new OpenLayers.Layer.OSM("OpenStreetMap");
-    osm.attribution = "Map Data CC-BY-SA Openstreetmap.org";
-                             
-    map.addLayers([osm]);
+    var ghyb = new OpenLayers.Layer.Google("Google Satellite", {type: G_HYBRID_MAP, 'sphericalMercator': true} );
+                                 
+    map.addLayers([ghyb]);
 
     if (enable_gmaps) {
         var gphy = new OpenLayers.Layer.Google( "Google Terrain", {type: G_PHYSICAL_MAP, 'sphericalMercator': true} );
         var gmap = new OpenLayers.Layer.Google( "Google Streets", {'sphericalMercator': true});
-        var ghyb = new OpenLayers.Layer.Google("Google Satellite", {type: G_HYBRID_MAP, 'sphericalMercator': true} );
-        map.addLayers([ghyb, gmap, gphy]);
+        var osm = new OpenLayers.Layer.OSM("OpenStreetMap");
+    osm.attribution = "Map Data CC-BY-SA Openstreetmap.org";
+        map.addLayers([osm, gmap, gphy]);
     }
     map.addLayers([polygons]);
     map.addControl(new OpenLayers.Control.Navigation({'zoomWheelEnabled': false}));
