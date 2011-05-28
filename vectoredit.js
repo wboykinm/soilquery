@@ -136,7 +136,7 @@ function init(){
                 var merc_bounds = wgs84_bounds.transform(map.displayProjection,map.projection);
                 console.log(merc_bounds);
                 map.zoomToExtent(merc_bounds);
-                map.zoomOut() // zoom back out one step
+                //map.zoomOut() // zoom back out one step
                 // http://dev.openlayers.org/sandbox/pinch/examples/boxes.html
                 var boxes  = new OpenLayers.Layer.Boxes( "Raster Box" );
                 var box = new OpenLayers.Marker.Box(merc_bounds);
