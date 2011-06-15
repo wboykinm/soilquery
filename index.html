@@ -1,4 +1,4 @@
-<!DOCTYPE html with a gajillion thanks to dbsgeo and Blueprint CSS>
+<!DOCTYPE html>
 
 <html lang="en">
   <head>
@@ -6,10 +6,9 @@
     <title>Soil Query</title>
 
     <!-- Framework CSS -->
-    <link rel="stylesheet" href="http://www.uvm.edu/~wboykinm/CS4GST/css/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="http://www.uvm.edu/~wboykinm/CS4GST/css/print.css" type="text/css" media="print">
-    <link rel="stylesheet" href="http://www.uvm.edu/~wboykinm/CS4GST/css/screen2.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="http://www.uvm.edu/~wboykinm/CS4GST/css/lightbox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="css/screen2.css" type="text/css" media="screen, projection">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
     <meta name="apple-mobile-web-app-capable" content="yes" /> 
     <style type = "text/css"/>
@@ -27,9 +26,6 @@
             list-style: none;
         }
     </style> 
-    <script type="text/javascript" src="http://www.uvm.edu/~wboykinm/CS4GST/js/prototype.js"></script>
-    <script type="text/javascript" src="http://www.uvm.edu/~wboykinm/CS4GST/js/scriptaculous.js?load=effects,builder"></script>
-    <script type="text/javascript" src="http://www.uvm.edu/~wboykinm/CS4GST/js/lightbox.js"></script>
     <script src="http://openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript"></script>
     <script src="vectoredit.js"></script>
@@ -58,28 +54,7 @@
   </head>
   <body onload="init()">
     <div class="container">
-      <h1 class="alt">Soil Query</h1>
-      <hr>
-      <h2 class="alt">Soil Biophysical Data at Your Fingertips</h2>
-      <hr>
-      <div class="span-7 prepend-1 colborder">
-        <h6>Soil Data Collection</h6>
-        <a href="http://www.youtube.com/watch?v=EqQXW9a8Aj8&feature=player_embedded" rel="lightbox" title="Surfer and Diver"> 
-            <img src="Soilex5.png" height="60" width="200"> 
-        </a>
-      </div>
-      <div class="span-7 colborder">
-        <h6>Case Study Location</h6>
-        <a href="Innis1.jpg" rel="lightbox" title="Innisfree Farm"> 
-            <img src="Soilex6.png" height="60" width="200"> 
-        </a>
-      </div>
-      <div class="span-7 last">
-        <h6>Soil Properties</h6>
-        <a href="http://soils.tfrec.wsu.edu/mg/pH.gif" rel="lightbox" title="Available Soil Properties"> 
-            <img src="Soilex7.png" height="60" width="200"> 
-        </a>
-      </div>
+      <h1 class="alt">Soil Query: </h1><h2 class="alt">Soil Biophysical Data at Your Fingertips</h2>
       <hr>
       <hr class="space">
       <div class="span-15 prepend-1 colborder">
@@ -154,7 +129,25 @@
 	   <div id="visualization" style="width: 250px; height: 300px;"></div>
           </div>
       <hr>
-      
+     <div class="span-7 prepend-1 colborder">
+        <h6>Soil Data Collection</h6>
+        <a href="http://www.youtube.com/watch?v=EqQXW9a8Aj8&feature=player_embedded" title="Surfer and Diver"> 
+            <img src="Soilex5.png" height="60" width="200"> 
+        </a>
+      </div>
+      <div class="span-7 colborder">
+        <h6>Case Study Location</h6>
+        <a href="Innis1.jpg" title="Innisfree Farm"> 
+            <img src="Soilex6.png" height="60" width="200"> 
+        </a>
+      </div>
+      <div class="span-7 last">
+        <h6>Soil Properties</h6>
+        <a href="http://soils.tfrec.wsu.edu/mg/pH.gif" title="Available Soil Properties"> 
+            <img src="Soilex7.png" height="60" width="200"> 
+        </a>
+      </div>
+      <hr> 
      <div class="container">
       <div class="span-15">	
       <h2 class="alt">Plan for Soil Sustainability!</h2>
